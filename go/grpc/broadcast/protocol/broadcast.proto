@@ -1,0 +1,24 @@
+syntax = "proto3";
+option go_package = "majecty.com/broadcast";
+
+package broadcast;
+
+service BroadcastService {
+  rpc SendToAll(BroadcastMessage) returns (SendToAllResponse) {}
+  rpc MessagesFromOthers(Empty) returns (stream BroadcastMessage) {}
+}
+
+message BroadcastMessage {
+  string from = 1;
+  string to = 2;
+  string message = 3;
+  bool broadcast = 4;
+}
+
+message SendToAllResponse {
+  string message = 1;
+}
+
+message Empty {
+  string message = 1;
+}

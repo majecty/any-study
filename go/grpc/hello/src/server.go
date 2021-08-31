@@ -1,6 +1,5 @@
 package main
 
-// golang import from local
 import (
 	"context"
 	"fmt"

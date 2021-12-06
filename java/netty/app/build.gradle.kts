@@ -10,6 +10,7 @@ dependencies {
     implementation("org.apache.commons:commons-text")
     implementation(project(":utilities"))
     implementation("io.netty:netty-all:4.1.70.Final")
+    implementation("org.xerial:sqlite-jdbc:3.36.0.3")
 }
 
 application {

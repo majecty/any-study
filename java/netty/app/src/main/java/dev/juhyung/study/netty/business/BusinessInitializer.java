@@ -1,5 +1,6 @@
 package dev.juhyung.study.netty.business;
 
+import dev.juhyung.study.netty.business.db.CountDB;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -10,9 +11,11 @@ import io.netty.util.concurrent.EventExecutorGroup;
 public class BusinessInitializer extends ChannelInitializer<SocketChannel> {
 
   private final EventExecutorGroup businessGroup;
+  private final CountDB countDB;
 
-  public BusinessInitializer(EventExecutorGroup businessGroup) {
+  public BusinessInitializer(EventExecutorGroup businessGroup, CountDB countDB) {
    this.businessGroup = businessGroup;
+   this.countDB = countDB;
   }
 
   @Override
@@ -20,6 +23,6 @@ public class BusinessInitializer extends ChannelInitializer<SocketChannel> {
     ChannelPipeline p = ch.pipeline();
     p.addLast(new HttpServerCodec());
     p.addLast(new HttpServerExpectContinueHandler());
-    p.addLast(businessGroup, new BusinessMainHandler());
+    p.addLast(businessGroup, new BusinessMainHandler(countDB));
   }
 }

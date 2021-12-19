@@ -15,5 +15,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass.set("dev.juhyung.study.netty.app.App")
+//    mainClass.set("dev.juhyung.study.netty.app.App")
+    project.logger.info("chooseMain is " + project.findProperty("chooseMain"));
+    mainClass.set(project.findProperty("chooseMain").toString());
 }

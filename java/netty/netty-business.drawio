@@ -1,1 +1,108 @@
-<mxfile host="app.diagrams.net" modified="2021-12-22T12:44:03.868Z" agent="5.0 (X11)" version="15.8.8" etag="zMI5dpQWfCb9fbEty983" type="github"><diagram id="zz59rFfIZMGQYRph7jfA">UzV2zq1wL0osyPDNT0nNUTV2VTV2LsrPL4GwciucU3NyVI0MMlNUjV1UjYwMgFjVyA2HrCFY1qAgsSg1rwSLBiADYTaQg2Y1AA==</diagram></mxfile>
+<mxfile host="app.diagrams.net" modified="2021-12-22T12:55:10.215Z" agent="5.0 (X11)" etag="1eUVdino-U9AHy2GsIFm" version="15.8.8" type="github" pages="2">
+  <diagram id="zz59rFfIZMGQYRph7jfA" name="Page-1">
+    <mxGraphModel dx="1792" dy="942" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="azWmAVO9Vkafey1T7_jj-2" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="170" y="165" width="500" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="azWmAVO9Vkafey1T7_jj-3" value="Channel Pipeline" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="170" y="165" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="azWmAVO9Vkafey1T7_jj-5" value="bytes in" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;width=30;endSize=6.5;fillColor=default;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="100" y="230" as="sourcePoint" />
+            <mxPoint x="190" y="230" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="azWmAVO9Vkafey1T7_jj-7" value="&lt;div&gt;Socket&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="30" y="200" width="60" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="azWmAVO9Vkafey1T7_jj-9" value="Handler A" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="200" y="200" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="azWmAVO9Vkafey1T7_jj-10" value="&lt;div&gt;Handler B&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="360" y="200" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="azWmAVO9Vkafey1T7_jj-11" value="&lt;div&gt;Handler C&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="530" y="200" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="azWmAVO9Vkafey1T7_jj-12" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;width=16;endSize=5;fillColor=default;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="324" y="229.66" as="sourcePoint" />
+            <mxPoint x="354" y="229.66" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="azWmAVO9Vkafey1T7_jj-13" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;width=16;endSize=5;fillColor=default;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="490" y="229.65999999999997" as="sourcePoint" />
+            <mxPoint x="520" y="229.65999999999997" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="azWmAVO9Vkafey1T7_jj-15" value="Event Loop Thread" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="180" y="120" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="azWmAVO9Vkafey1T7_jj-16" value="Event Executor Thread" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="320" y="120" width="150" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="azWmAVO9Vkafey1T7_jj-17" value="별도의 세팅을 하지 않는 경우 모든 Handler는 Event Loop의 Thread에서 동작합니다" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=default;" vertex="1" parent="1">
+          <mxGeometry x="30" y="60" width="660" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="_MqKTvxesX9TR26SuvpX" name="Page-2">
+    <mxGraphModel dx="741" dy="390" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="euDLK1eizWkCfmcPAtjE-0" />
+        <mxCell id="euDLK1eizWkCfmcPAtjE-1" parent="euDLK1eizWkCfmcPAtjE-0" />
+        <mxCell id="euDLK1eizWkCfmcPAtjE-2" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="euDLK1eizWkCfmcPAtjE-1">
+          <mxGeometry x="170" y="165" width="500" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="euDLK1eizWkCfmcPAtjE-3" value="Channel Pipeline" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="euDLK1eizWkCfmcPAtjE-1">
+          <mxGeometry x="170" y="165" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="euDLK1eizWkCfmcPAtjE-4" value="bytes in" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;width=30;endSize=6.5;fillColor=default;" edge="1" parent="euDLK1eizWkCfmcPAtjE-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="100" y="230" as="sourcePoint" />
+            <mxPoint x="190" y="230" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="euDLK1eizWkCfmcPAtjE-5" value="&lt;div&gt;Socket&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="euDLK1eizWkCfmcPAtjE-1">
+          <mxGeometry x="30" y="200" width="60" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="euDLK1eizWkCfmcPAtjE-6" value="Handler A" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="euDLK1eizWkCfmcPAtjE-1">
+          <mxGeometry x="200" y="200" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="euDLK1eizWkCfmcPAtjE-7" value="&lt;div&gt;Handler B&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="euDLK1eizWkCfmcPAtjE-1">
+          <mxGeometry x="360" y="200" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="euDLK1eizWkCfmcPAtjE-8" value="&lt;div&gt;Handler C&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="euDLK1eizWkCfmcPAtjE-1">
+          <mxGeometry x="530" y="200" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="euDLK1eizWkCfmcPAtjE-9" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;width=16;endSize=5;fillColor=default;" edge="1" parent="euDLK1eizWkCfmcPAtjE-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="324" y="229.65999999999997" as="sourcePoint" />
+            <mxPoint x="354" y="229.65999999999997" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="euDLK1eizWkCfmcPAtjE-10" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;width=16;endSize=5;fillColor=default;" edge="1" parent="euDLK1eizWkCfmcPAtjE-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="490" y="229.65999999999997" as="sourcePoint" />
+            <mxPoint x="520" y="229.65999999999997" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="euDLK1eizWkCfmcPAtjE-11" value="Event Loop Thread" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="euDLK1eizWkCfmcPAtjE-1">
+          <mxGeometry x="180" y="120" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="euDLK1eizWkCfmcPAtjE-12" value="Event Executor Thread" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="euDLK1eizWkCfmcPAtjE-1">
+          <mxGeometry x="320" y="120" width="150" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="euDLK1eizWkCfmcPAtjE-13" value="특정 Handler만 다른 쓰레드에서 실행되도록 만들 수 있습니다." style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=default;" vertex="1" parent="euDLK1eizWkCfmcPAtjE-1">
+          <mxGeometry x="30" y="60" width="660" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

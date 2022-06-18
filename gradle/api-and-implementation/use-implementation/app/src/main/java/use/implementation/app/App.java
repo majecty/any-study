@@ -3,6 +3,8 @@
  */
 package use.implementation.app;
 
+import java.io.IOException;
+import use.implementation.list.HideOKHttp;
 import use.implementation.list.LinkedList;
 
 import static use.implementation.utilities.StringUtils.join;
@@ -12,10 +14,12 @@ import static use.implementation.app.MessageUtils.getMessage;
 import org.apache.commons.text.WordUtils;
 
 public class App {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         LinkedList tokens;
         tokens = split(getMessage());
         String result = join(tokens);
         System.out.println(WordUtils.capitalize(result));
+
+        System.out.println(new HideOKHttp().exposeOkHTTP3Type().body().string());
     }
 }

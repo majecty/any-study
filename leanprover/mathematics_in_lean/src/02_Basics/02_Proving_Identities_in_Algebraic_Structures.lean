@@ -60,13 +60,33 @@ by rw [←add_assoc, add_left_neg, zero_add]
 /- Prove these: -/
 
 theorem add_neg_cancel_right (a b : R) : (a + b) + -b = a :=
-sorry
+calc
+  (a + b) + -b = a + b + -b : by rw add_comm
+  ... = a + (b + -b) : by rw add_assoc
+  ... = a + 0: by rw add_right_neg
+  ... = a : by rw [add_comm, zero_add]
+
+theorem bor_zero_add (a : R) : a = a + 0 := begin
+  nth_rewrite 0 ← zero_add a,
+  rw add_comm,
+end
 
 theorem add_left_cancel {a b c : R} (h : a + b = a + c) : b = c :=
-sorry
+calc
+  b = 0 + b : by rw zero_add
+  ... = -a + a + b : by rw add_left_neg a
+  ... = -a + a + c : by
+    rw [add_assoc, h, ← add_assoc]
+  ... = c : by
+    rw [add_left_neg, zero_add]
 
 theorem add_right_cancel {a b c : R} (h : a + b = c + b) : a = c :=
-sorry
+calc
+  a = a + 0 : by rw add_zero
+  ... = a + (-b + b) : by rw add_left_neg b
+  ... = a + b + -b : by rw [add_assoc a b (-b), add_comm b]
+  ... = c + b + -b : by rw h
+  ... = c : by rw [add_assoc, add_comm b, add_left_neg, add_zero]
 
 theorem mul_zero (a : R) : a * 0 = 0 :=
 begin

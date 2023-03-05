@@ -96,22 +96,35 @@ begin
 end
 
 theorem zero_mul (a : R) : 0 * a = 0 :=
-sorry
+begin
+  have h : 0 * a + 0 * a = 0 + 0 * a,
+  { rw [←add_mul, add_zero, zero_add] },
+  rw add_right_cancel h
+end
 
 theorem neg_eq_of_add_eq_zero {a b : R} (h : a + b = 0) : -a = b :=
-sorry
+begin
+  have p : a + -a = a + b := by rw [add_right_neg, h],
+  rw add_left_cancel p
+end
 
 theorem eq_neg_of_add_eq_zero {a b : R} (h : a + b = 0) : a = -b :=
-sorry
+begin
+  have p : a + b = -b + b := by rw [h, add_left_neg],
+  rw add_right_cancel p
+end
 
 theorem neg_zero : (-0 : R) = 0 :=
 begin
   apply neg_eq_of_add_eq_zero,
-  rw add_zero
+  rw add_zero,
 end
 
 theorem neg_neg (a : R) : -(-a) = a :=
-sorry
+begin
+  apply neg_eq_of_add_eq_zero,
+  rw add_left_neg,
+end
 
 end my_ring
 
@@ -136,13 +149,20 @@ namespace my_ring
 variables {R : Type*} [ring R]
 
 theorem self_sub (a : R) : a - a = 0 :=
-sorry
+begin
+  rw sub_eq_add_neg,
+  rw add_right_neg,
+end
 
 lemma one_add_one_eq_two : 1 + 1 = (2 : R) :=
 by refl
 
 theorem two_mul (a : R) : 2 * a = a + a :=
-sorry
+begin
+  rw ← one_add_one_eq_two,
+  rw add_mul,
+  rw one_mul,
+end
 
 end my_ring
 

@@ -20,7 +20,8 @@ example (x y z : ℝ) (h₀ : x ≤ y) (h₁ : y ≤ z) : x ≤ z :=
 begin
   apply le_trans,
   { apply h₀ },
-  apply h₁
+  -- apply h₀,
+  apply h₁,
 end
 
 example (x y z : ℝ) (h₀ : x ≤ y) (h₁ : y ≤ z) : x ≤ z :=
@@ -54,8 +55,11 @@ le_refl x
 
 example (h₀ : a ≤ b) (h₁ : b < c) (h₂ : c ≤ d)
     (h₃ : d < e) :
-  a < e :=
-sorry
+  a < e := begin
+  apply lt_of_le_of_lt h₀, -- b < e
+  apply lt_trans h₁, -- c < e
+  apply lt_of_le_of_lt h₂ h₃,
+end
 
 example (h₀ : a ≤ b) (h₁ : b < c) (h₂ : c ≤ d)
     (h₃ : d < e) :
@@ -105,7 +109,10 @@ end
 
 example (h₀ : d ≤ e) : c + exp (a + d) ≤ c + exp (a + e) :=
 begin
-  sorry
+  apply add_le_add_left,
+  apply exp_le_exp.mpr,
+  apply add_le_add_left,
+  apply h₀,
 end
 
 example : (0 : ℝ) < 1 :=
@@ -114,11 +121,25 @@ by norm_num
 example (h : a ≤ b) : log (1 + exp a) ≤ log (1 + exp b) :=
 begin
   have h₀ : 0 < 1 + exp a,
-  { sorry },
+  { 
+    apply lt_trans,
+    apply exp_pos a,
+    nth_rewrite 0 ←zero_add (exp a),
+    apply add_lt_add_right,
+    by norm_num,
+   },
   have h₁ : 0 < 1 + exp b,
-  { sorry },
+  {
+    apply lt_trans,
+    apply exp_pos b,
+    nth_rewrite 0 ←zero_add (exp b),
+    apply add_lt_add_right,
+    by norm_num,
+  },
   apply (log_le_log h₀ h₁).mpr,
-  sorry
+  apply add_le_add_left,
+  apply exp_le_exp.mpr,
+  apply h,
 end
 
     example : 0 ≤ a^2 :=
@@ -128,7 +149,11 @@ end
     end
 
 example (h : a ≤ b) : c - exp b ≤ c - exp a :=
+begin
+  -- library_search,
+  -- suggest,
   sorry
+end
 
 example : 2*a*b ≤ a^2 + b^2 :=
 begin

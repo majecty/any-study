@@ -150,9 +150,17 @@ end
 
 example (h : a ≤ b) : c - exp b ≤ c - exp a :=
 begin
+  -- apply add_le_add_left,
   -- library_search,
-  -- suggest,
-  sorry
+  -- hint
+  refine add_le_add _ _,
+  exact rfl.ge,
+  have h₁ : exp a ≤ exp b, {
+    exact exp_le_exp.mpr h,
+  },
+  exact neg_le_neg h₁,
+  -- library_search,
+  -- sorry
 end
 
 example : 2*a*b ≤ a^2 + b^2 :=
@@ -178,7 +186,26 @@ begin
 end
 
 example : abs (a*b) ≤ (a^2 + b^2) / 2 :=
-sorry
+begin
+  have h₃ : 0 ≤ a^2 + b^2 + 2*a*b,
+  calc
+    a^2 + b^2 + 2*a*b = (a + b)^2 : by ring
+    ... ≥ 0 : by apply pow_two_nonneg,
+  have h₄ : 0 ≤ a^2 + b^2 - 2*a*b,
+  calc
+    a^2 + b^2 - 2*a*b = (a - b)^2 : by ring
+    ... ≥ 0 : by apply pow_two_nonneg,
+  have h₀ : a*b ≤ (a^2 + b^2) / 2,
+  calc
+    (a^2 + b^2) / 2 = (a^2 + b^2 - 2*a*b) / 2 + a*b : by ring
+    ... ≥ a*b : by linarith, 
+  have h₁ : -(a*b) ≤ (a^2 + b^2) / 2,
+  calc
+    (a^2 + b^2) / 2 = (a^2 + b^2 + 2*a*b) / 2 + -(a*b) : by ring
+    ... ≥ -(a*b) : by linarith, 
+  apply abs_le'.mpr,
+  exact ⟨h₀, h₁⟩,
+end
 
 #check abs_le'.mpr
 

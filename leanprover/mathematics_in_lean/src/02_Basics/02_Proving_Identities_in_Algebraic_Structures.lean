@@ -183,14 +183,79 @@ variables {G : Type*} [group G]
 
 namespace my_group
 
-theorem mul_right_inv (a : G) : a * a⁻¹ = 1 :=
-sorry
+theorem mul_right_inv (a : G) : a * a⁻¹ = 1 := begin
+  have k : (a * a⁻¹)⁻¹ * a * a⁻¹ * a * a⁻¹ = a * a⁻¹,
+  { 
+    rw mul_assoc (a * a⁻¹)⁻¹ a a⁻¹,
+    rw mul_left_inv,
+    rw one_mul,
+  },
 
-theorem mul_one (a : G) : a * 1 = a :=
-sorry
+  have j : a⁻¹ * a * a⁻¹ = a⁻¹,
+  {
+    rw mul_left_inv,
+    rw one_mul,
+  },
 
-theorem mul_inv_rev (a b : G) : (a * b)⁻¹ = b⁻¹ * a ⁻¹ :=
-sorry
+  have i : (a * a⁻¹)⁻¹ * a * a⁻¹ = a * a⁻¹,
+  {
+    nth_rewrite 1 ←j,
+    rw ← mul_assoc,
+    rw ← mul_assoc,
+    rw k,
+  },
+
+  have h : 1 = a * a⁻¹,
+  {
+    rw ← i,
+    rw mul_assoc,
+    rw mul_left_inv,
+  },
+
+  rw h,
+end
+
+theorem mul_one (a : G) : a * 1 = a := begin
+  have h : a * a⁻¹ * a = a, {
+    rw mul_right_inv,
+    rw one_mul,
+  },
+  have i : a * 1 = a, {
+    nth_rewrite_rhs 0 ← h,
+    rw mul_assoc,
+    rw mul_left_inv,
+  },
+  exact i,
+end
+
+theorem mul_inv_rev (a b : G) : (a * b)⁻¹ = b⁻¹ * a ⁻¹ := begin
+  have h : (a * b)⁻¹ * a = b⁻¹, begin
+    nth_rewrite 1 ← mul_one a,
+    nth_rewrite 0 ← mul_right_inv b, 
+    rw ← mul_assoc a,
+    rw ← mul_assoc,
+    rw mul_left_inv,
+    rw one_mul,
+  end,
+  have i : b * (a * b)⁻¹ = a⁻¹, begin
+    nth_rewrite 0 ← one_mul b,
+    nth_rewrite 0 ← mul_left_inv a, 
+    rw mul_assoc a⁻¹,
+    rw mul_assoc a⁻¹,
+    rw mul_right_inv,
+    rw mul_one,
+  end,
+  have j : (a * b)⁻¹ = b⁻¹ * a ⁻¹ , begin
+    rw ←h,
+    rw ←i,
+    rw ← mul_assoc,
+    rw mul_assoc _ a b,
+    rw mul_left_inv,
+    rw one_mul,
+  end,
+
+  exact j,
+end
 
 end my_group
 end

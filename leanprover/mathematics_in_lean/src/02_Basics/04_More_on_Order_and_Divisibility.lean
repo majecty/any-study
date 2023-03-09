@@ -40,10 +40,45 @@ begin
 end
 
 example : max a b = max b a :=
-sorry
+begin
+  have h : ∀ x y, max x y ≤ max y x,
+  {
+    intros x y,
+    apply max_le,
+    apply le_max_right,
+    apply le_max_left,
+  },
+  apply le_antisymm,
+  apply h,
+  apply h,
+end
 
-example : min (min a b) c = min a (min b c) :=
-sorry
+example : min (min a b) c = min a (min b c) := begin
+  have x₀ : min (min a b) c ≤ a, sorry,
+  have x₁ : min (min a b) c ≤ a, sorry,
+  apply le_antisymm,
+  { 
+    show min (min a b) c ≤ min a (min b c),
+    have h₀ : min (min a b) c ≤ min a b, by apply min_le_left,
+    have h₁ : min a b ≤ a, by apply min_le_left,
+    have h₂ : min (min a b) c ≤ a, begin
+      apply le_trans h₀ h₁,
+    end,
+
+    have z₀ : min (min a b) c ≤ min a b, by apply min_le_left,
+    have z₁ : min a b ≤ b, by apply min_le_right,
+    have i₀ : min (min a b) c ≤ b, begin
+      apply le_trans z₀ z₁,
+    end,
+    have i₁ : min (min a b) c ≤ c, by apply min_le_right,
+    have i₂ : min (min a b) c ≤ min b c, begin
+      apply le_min i₀ i₁,
+    end,
+
+    apply le_min h₂ i₂,
+  },
+sorry,
+end
 
 lemma aux : min a b + c ≤ min (a + c) (b + c) :=
 sorry

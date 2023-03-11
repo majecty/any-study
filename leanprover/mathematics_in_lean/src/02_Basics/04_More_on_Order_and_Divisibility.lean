@@ -53,9 +53,27 @@ begin
   apply h,
 end
 
+-- backup
 example : min (min a b) c = min a (min b c) := begin
-  have x₀ : min (min a b) c ≤ a, sorry,
-  have x₁ : min (min a b) c ≤ a, sorry,
+  have x₀ : ∀ x y z, min (min x y) z ≤ x, { 
+    intros x y z,
+    apply le_trans,
+    { show min (min x y) z ≤ (min x y),
+    -- apply le_min,
+    -- apply min_le_left,
+    -- apply min_le_right,
+      sorry,},
+    apply min_le_left,
+    -- have xx₀ : min (min x y) z ≤ min x y, by apply min_le_left,
+    -- have xx₁ : min x y ≤ x, by apply min_le_left,
+    -- apply le_trans xx₀ xx₁,
+  },
+  have x₁ : min (min a b) c ≤ b, sorry,
+  have x₂ : min (min a b) c ≤ c, sorry,
+sorry,
+end
+
+example : min (min a b) c = min a (min b c) := begin
   apply le_antisymm,
   { 
     show min (min a b) c ≤ min a (min b c),
@@ -77,14 +95,73 @@ example : min (min a b) c = min a (min b c) := begin
 
     apply le_min h₂ i₂,
   },
-sorry,
+  { 
+    show min a (min b c) ≤ min (min a b) c ,
+
+    have h₂ : min a (min b c) ≤ b, begin
+      apply le_trans,
+      apply min_le_right,
+      apply min_le_left,
+    end,
+    have h₁ : min a (min b c) ≤ a, begin
+      apply min_le_left,
+    end,
+    have h₀ : min a (min b c) ≤ min a b, begin
+      apply le_min h₁ h₂,
+    end,
+
+    have i₀ : min a (min b c) ≤ c, begin
+     apply le_trans,
+     apply min_le_right,
+     apply min_le_right,
+    end,
+    apply le_min h₀ i₀
+  },
 end
 
-lemma aux : min a b + c ≤ min (a + c) (b + c) :=
-sorry
+lemma aux : min a b + c ≤ min (a + c) (b + c) := begin
+  apply le_min,
+  { 
+    have h₀ : min a b ≤ a, by apply min_le_left,
+    have h₁ : min a b + c ≤ a + c, by apply add_le_add_right h₀ c,
+    exact h₁,
+  },
+  { show min a b + c ≤ b + c,
+    have h₀ : min a b ≤ b, by apply min_le_right,
+    have h₁ : min a b + c ≤ b + c, by apply add_le_add_right h₀ c,
+    exact h₁,
+  },
+end
 
-example : min a b + c = min (a + c) (b + c) :=
-sorry
+example : min a b + c = min (a + c) (b + c) := begin
+  apply le_antisymm,
+  { show  min a b + c ≤ min (a + c) (b + c),
+  apply aux,
+  },
+  { show min (a + c) (b + c) ≤ min a b + c,
+    have h₀ : min (a + c) (b + c) ≤ a + c, sorry,
+    have h₁ : min (a + c) (b + c) ≤ b + c, sorry,
+    have h₂ : min (a + c) (b + c) + -c ≤ min a b, begin
+      apply le_min,
+      {  show min (a + c) (b + c) + -c ≤ a,
+        have i₀ : min (a + c) (b + c) ≤ a + c, by apply min_le_left,
+        have i₁ : min (a + c) (b + c) + -c ≤ a + c + -c, by apply add_le_add_right i₀,
+        rw add_neg_cancel_right at i₁,
+        exact i₁,
+      },
+      { show min (a + c) (b + c) + -c ≤ b,
+        have i₀ : min (a + c) (b + c) ≤ b + c, by apply min_le_right,
+        have i₁ : min (a + c) (b + c) + -c ≤ b + c + -c, by apply add_le_add_right i₀,
+        rw add_neg_cancel_right at i₁,
+        exact i₁,
+      },
+    end,
+    have h₃ : min (a + c) (b + c) + -c + c ≤ min a b + c, begin
+      apply add_le_add_right h₂,
+    end,
+    by linarith,
+  }
+end
 
 #check (abs_add : ∀ a b : ℝ, abs (a + b) ≤ abs a + abs b)
 

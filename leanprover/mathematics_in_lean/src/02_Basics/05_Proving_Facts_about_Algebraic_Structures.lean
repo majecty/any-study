@@ -39,15 +39,6 @@ variables x y z : α
 #check le_trans
 #check le_antisymm -- le_antisymm : ?M_3 ≤ ?M_4 → ?M_4 ≤ ?M_3 → ?M_3 = ?M_4
 
-
-example : x = y → x ≤ y ∧ x ≥ y := begin
-sorry,
-  -- apply ← le_antisymm,
--- finish,
-  -- exact antisymm_iff.mpr,
-  -- exact antisymm_iff.mpr,
-end    
-
 example : x ⊓ y = y ⊓ x := begin
   apply le_antisymm,
   { show x ⊓ y ≤ y ⊓ x,
@@ -201,12 +192,37 @@ variables {α : Type*} [lattice α]
 variables a b c : α
 
 example (h : ∀ x y z : α, x ⊓ (y ⊔ z) = (x ⊓ y) ⊔ (x ⊓ z)) :
-  a ⊔ (b ⊓ c) = (a ⊔ b) ⊓ (a ⊔ c) :=
-sorry
+  a ⊔ (b ⊓ c) = (a ⊔ b) ⊓ (a ⊔ c) := begin
+
+  have h₀ : (a ⊔ b) ⊓ (a ⊔ c) = ((a ⊔ b) ⊓ a) ⊔ ((a ⊔ b) ⊓ c), by apply h,
+  have h₁ : ((a ⊔ b) ⊓ a) ⊔ ((a ⊔ b) ⊓ c) = a ⊔ ((a ⊔ b) ⊓ c), {
+    rw inf_comm,
+    rw absorb1 a b,
+  },
+  have h₂ : a ⊔ ((a ⊔ b) ⊓ c) = a ⊔ ((c ⊓ a) ⊔ (c ⊓ b)), {
+    rw inf_comm,
+    rw h,
+  },
+  have h₃ : a ⊔ ((c ⊓ a) ⊔ (c ⊓ b)) = a ⊔ (b ⊓ c), {
+    rw inf_comm,
+    nth_rewrite 0 ←sup_assoc,
+    rw absorb2,
+    rw inf_comm,
+  },
+
+  rw [h₀, h₁, h₂, h₃],
+end
 
 example (h : ∀ x y z : α, x ⊔ (y ⊓ z) = (x ⊔ y) ⊓ (x ⊔ z)) :
-  a ⊓ (b ⊔ c) = (a ⊓ b) ⊔ (a ⊓ c) :=
-sorry
+  a ⊓ (b ⊔ c) = (a ⊓ b) ⊔ (a ⊓ c) := begin
+
+  have h₀ : (a ⊓ b) ⊔ (a ⊓ c) = ((a ⊓ b) ⊔ a) ⊓ ((a ⊓ b) ⊔ c), by apply h,
+  have h₁ : ((a ⊓ b) ⊔ a) ⊓ ((a ⊓ b) ⊔ c) = a ⊓ ((a ⊓ b) ⊔ c), by rw [sup_comm, absorb2],
+  have h₂ : a ⊓ ((a ⊓ b) ⊔ c) = a ⊓ ((c ⊔ a) ⊓ (c ⊔ b)), by rw [sup_comm, h],
+  have h₃ : a ⊓ ((c ⊔ a) ⊓ (c ⊔ b)) = a ⊓ (b ⊔ c), by rw [← inf_assoc, sup_comm, absorb1, sup_comm],
+
+  rw [h₀, h₁, h₂, h₃],
+end
 
 end
 

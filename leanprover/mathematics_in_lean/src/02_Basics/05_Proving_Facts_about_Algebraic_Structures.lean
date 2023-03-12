@@ -235,11 +235,92 @@ variables a b c : R
 
 #check (mul_nonneg : 0 ≤ a → 0 ≤ b → 0 ≤ a * b)
 
-example : a ≤ b → 0 ≤ b - a := sorry
+example : a + -b = a - b := begin
+  rw ← sub_eq_add_neg,
+  -- refine eq.symm _,
+end
 
-example : 0 ≤ b - a → a ≤ b := sorry
+example : a - a = 0 := begin
+ exact sub_self a,
+end
 
-example (h : a ≤ b) (h' : 0 ≤ c) : a * c ≤ b * c := sorry
+-- 이렇게 하는 게 맞을까?
+example : a ≤ b → 0 ≤ b - a := begin
+  assume h : a ≤ b, 
+  have h₀ : -a + a ≤ -a + b, begin
+    apply add_le_add_left h,
+  end,
+  have h₁ : a - a ≤ b - a, begin
+    rw add_comm at h₀,
+    nth_rewrite_rhs 0 add_comm at h₀,
+    rw ← sub_eq_add_neg at h₀,
+    rw ← sub_eq_add_neg at h₀,
+    exact h₀,
+  end,
+  have h₂ : 0 ≤ b - a, begin
+    rw sub_self at h₁, 
+    exact h₁,
+  end,
+  exact h₂,
+end
+
+example : a - b + c = a + c - b := begin
+exact sub_add_eq_add_sub a b c,
+end
+
+example : 0 ≤ b - a → a ≤ b := begin
+  assume h : 0 ≤ b - a,
+  have h₀ : a - a ≤ b - a, begin
+    rw ← sub_self at h,
+    exact h,
+  end,
+  have h₁ : a - a + a ≤ b - a + a, begin
+    apply add_le_add_right,
+    exact h₀,
+  end,
+  have h₂ : a ≤ b, begin
+    rw sub_self at h₁,
+    rw sub_eq_add_neg at h₁,
+    nth_rewrite_rhs 0 add_assoc at h₁,
+    rw add_left_neg at h₁,
+    rw add_zero at h₁,
+    rw zero_add at h₁,
+    exact h₁,
+  end, 
+  exact h₂,
+end
+
+example : -a + a = 0 := begin
+exact neg_add_self a,
+end
+
+example (h : a ≤ b) (h' : 0 ≤ c) : a * c ≤ b * c := begin
+  have h₀ : 0 ≤ b - a, begin
+    rw ← sub_self a,
+    rw sub_eq_add_neg,
+    rw sub_eq_add_neg,
+    apply add_le_add_right h,
+  end,
+  have h₁ : 0 ≤ (b - a) * c, begin
+    apply mul_nonneg,
+    apply h₀,
+    apply h',
+  end,
+  have h₂ : 0 ≤ b * c - a * c, begin
+    rw sub_mul at h₁,
+    exact h₁
+  end,   
+  have h₃ : a * c ≤ b * c, begin
+    have j₀ : 0 + a * c ≤ b * c - a * c + a * c, by apply add_le_add_right h₂,
+    rw zero_add at j₀,
+    rw sub_eq_add_neg at j₀,
+    rw add_assoc at j₀,
+    rw neg_add_self (a * c) at j₀,
+    rw add_zero at j₀,
+    exact j₀,
+  end,
+  exact h₃,
+end
 
 end
 

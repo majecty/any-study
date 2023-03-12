@@ -165,9 +165,12 @@ end
 
 #check (abs_add : ∀ a b : ℝ, abs (a + b) ≤ abs a + abs b)
 
-example : abs a - abs b ≤ abs (a - b) :=
-sorry
+#check sub_add_cancel --  a - b + b = a
 
+example : abs a - abs b ≤ abs (a - b) := begin
+  have h₀ : abs (a - b + b) ≤ abs (a - b) + abs b, by apply abs_add,
+  have h₁ : abs a <= abs (a - b) + abs b, by { rw sub_add_cancel at h₀, exact h₀ },
+  by linarith,
 end
 
 section

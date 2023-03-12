@@ -33,13 +33,155 @@ variables x y z : α
 #check (le_sup_right: y ≤ x ⊔ y)
 #check (sup_le : x ≤ z → y ≤ z → x ⊔ y ≤ z)
 
-example : x ⊓ y = y ⊓ x := sorry
-example : x ⊓ y ⊓ z = x ⊓ (y ⊓ z) := sorry
-example : x ⊔ y = y ⊔ x := sorry
-example : x ⊔ y ⊔ z = x ⊔ (y ⊔ z) := sorry
+-- le_refl, le_trans,
 
-theorem absorb1 : x ⊓ (x ⊔ y) = x := sorry
-theorem absorb2 : x ⊔ (x ⊓ y) = x := sorry
+#check le_refl
+#check le_trans
+#check le_antisymm -- le_antisymm : ?M_3 ≤ ?M_4 → ?M_4 ≤ ?M_3 → ?M_3 = ?M_4
+
+
+example : x = y → x ≤ y ∧ x ≥ y := begin
+sorry,
+  -- apply ← le_antisymm,
+-- finish,
+  -- exact antisymm_iff.mpr,
+  -- exact antisymm_iff.mpr,
+end    
+
+example : x ⊓ y = y ⊓ x := begin
+  apply le_antisymm,
+  { show x ⊓ y ≤ y ⊓ x,
+    apply le_inf,
+    apply inf_le_right,
+    apply inf_le_left,
+  },
+  { show y ⊓ x ≤ x ⊓ y,
+    apply le_inf,
+    apply inf_le_right,
+    apply inf_le_left,
+  }
+end
+example : x ⊓ y ⊓ z = x ⊓ (y ⊓ z) := begin
+  apply le_antisymm,
+  { show x ⊓ y ⊓ z ≤ x ⊓ (y ⊓ z),
+    apply le_inf,
+    { show x ⊓ y ⊓ z ≤ x,
+      have h₀ : x ⊓ y ≤ x,  by apply inf_le_left,
+      have h₁ : x ⊓ y ⊓ z ≤ x ⊓ y, by apply inf_le_left,
+      apply le_trans h₁ h₀,
+    },
+    { show x ⊓ y ⊓ z ≤ y ⊓ z,
+      have h₀ : x ⊓ y ⊓ z ≤ z, by apply inf_le_right, 
+      have h₁ : x ⊓ y ⊓ z ≤ x ⊓ y, by apply inf_le_left,
+      have h₂ : x ⊓ y ≤ y, by apply inf_le_right,
+      have h₃ : x ⊓ y ⊓ z ≤ y, by apply le_trans h₁ h₂,  
+      apply le_inf h₃ h₀,
+    }
+  },
+  { show x ⊓ (y ⊓ z) ≤ x ⊓ y ⊓ z,
+    apply le_inf,
+    { show x ⊓ (y ⊓ z) ≤ x ⊓ y,
+      apply le_inf,
+      { show x ⊓ (y ⊓ z) ≤ x,
+        apply inf_le_left,
+      },
+      { show x ⊓ (y ⊓ z) ≤ y,
+        have h₀ : y ⊓ z ≤ y, apply inf_le_left,
+        have h₁ : x ⊓ (y ⊓ z) ≤ y ⊓ z, apply inf_le_right, 
+        apply le_trans h₁ h₀,
+      }
+    },
+    { show x ⊓ (y ⊓ z) ≤ z,
+      have h₀ : x ⊓ (y ⊓ z) ≤ y ⊓ z, apply inf_le_right,
+      have h₁ : y ⊓ z ≤ z, apply inf_le_right, 
+      apply le_trans h₀ h₁,
+    },
+  }
+end
+
+example : x ⊔ y = y ⊔ x := begin
+  apply le_antisymm,
+  { show x ⊔ y ≤ y ⊔ x,
+    apply sup_le,
+    { show x ≤ y ⊔ x,
+      apply le_sup_right,
+    },
+    { show y ≤ y ⊔ x,
+      apply le_sup_left,
+    }
+  },
+  { show y ⊔ x ≤ x ⊔ y,
+    have h₀ : y ≤ x ⊔ y, by apply le_sup_right, 
+    have h₁ : x ≤ x ⊔ y, by apply le_sup_left, 
+    apply sup_le h₀ h₁,
+  },
+end
+
+example : x ⊔ y ⊔ z = x ⊔ (y ⊔ z) := begin
+  apply le_antisymm,
+  { show x ⊔ y ⊔ z ≤ x ⊔ (y ⊔ z),
+    apply sup_le,
+    { show x ⊔ y ≤ x ⊔ (y ⊔ z),
+      apply sup_le,
+      { show x ≤ x ⊔ (y ⊔ z),
+        apply le_sup_left,
+      },
+      { show y ≤ x ⊔ (y ⊔ z),
+        have h₀ : y ≤ y ⊔ z, apply le_sup_left, 
+        have h₁ : y ⊔ z ≤ x ⊔ (y ⊔ z) , apply le_sup_right, 
+        apply le_trans h₀ h₁,
+      }
+    },
+    { show z ≤ x ⊔ (y ⊔ z),
+      have h₀ : z ≤ y ⊔ z, by apply le_sup_right, 
+      have h₁ : y ⊔ z ≤ x ⊔ (y ⊔ z), by apply le_sup_right,
+      apply le_trans h₀ h₁,
+    }
+  },
+  { show x ⊔ (y ⊔ z) ≤ x ⊔ y ⊔ z,
+    apply sup_le,
+    { show x ≤ x ⊔ y ⊔ z,
+      have h₀ : x ≤ x ⊔ y, by apply le_sup_left,
+      have h₁ : x ⊔ y ≤ x ⊔ y ⊔ z, by apply le_sup_left, 
+      apply le_trans h₀ h₁,
+    },
+    { show y ⊔ z ≤ x ⊔ y ⊔ z,
+      apply sup_le,
+      { show y ≤ x ⊔ y ⊔ z,
+        have h₀ : y ≤ x ⊔ y, by apply le_sup_right,
+        have h₁ : x ⊔ y ≤ x ⊔ y ⊔ z, by apply le_sup_left,
+        apply le_trans h₀ h₁,    
+      },
+      { show z ≤ x ⊔ y ⊔ z,
+        apply le_sup_right
+      }
+    },
+  },
+end
+
+theorem absorb1 : x ⊓ (x ⊔ y) = x := begin
+  apply le_antisymm,
+  { show x ⊓ (x ⊔ y) ≤ x,
+    apply inf_le_left,
+  },
+  { show x ≤ x ⊓ (x ⊔ y),
+    have h₀ : x ≤ x ⊔ y, apply le_sup_left,
+    have h₁ : x ≤ x, apply le_refl,  
+    apply le_inf h₁ h₀,
+  },
+end
+
+theorem absorb2 : x ⊔ (x ⊓ y) = x := begin
+  apply le_antisymm,
+  { show x ⊔ (x ⊓ y) ≤ x,
+    have h₀ : x ≤ x, by apply le_refl, 
+    have h₁ : x ⊓ y ≤ x, by apply inf_le_left, 
+    apply sup_le h₀ h₁,
+  },
+  { show x ≤ x ⊔ (x ⊓ y),
+    apply le_sup_left,
+  },
+end
 
 end
 

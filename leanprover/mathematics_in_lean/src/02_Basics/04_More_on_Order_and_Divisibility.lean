@@ -171,6 +171,8 @@ example : abs a - abs b ≤ abs (a - b) := begin
   by linarith,
 end
 
+end
+
 section
 variables w x y z : ℕ
 
@@ -224,6 +226,8 @@ example (h : x ∣ w) : x ∣ y * (x * z) + x^2 + w^2 := begin
   },
 end
 
+end
+
 section
 variables m n : ℕ
 open nat
@@ -241,7 +245,7 @@ example : gcd m n ∣ n := begin
   exact gcd_dvd_right m n,
 end
 
-example (h: x ∣ n) (h₁ : x ∣ m) : x ∣ gcd m n := begin
+example (x : ℕ) (h: x ∣ n) (h₁ : x ∣ m) : x ∣ gcd m n := begin
  exact dvd_gcd h₁ h,
 end
 

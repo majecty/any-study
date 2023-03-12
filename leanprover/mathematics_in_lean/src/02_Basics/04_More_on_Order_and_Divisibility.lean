@@ -182,15 +182,53 @@ dvd_trans h₀ h₁
 example : x ∣ y * x * z :=
 begin
   apply dvd_mul_of_dvd_left,
-  apply dvd_mul_left
+  apply dvd_mul_left,
 end
 
 example : x ∣ x^2 :=
 by apply dvd_mul_right
 
-example (h : x ∣ w) : x ∣ y * (x * z) + x^2 + w^2 :=
-sorry
+example : x * x = x ^ 2 := begin
+  exact (sq x).symm,
+end
 
+example : x ∣ x * y  := begin
+exact dvd_mul_right x y,
+  -- exact dvd.intro y rfl,
+end
+example : x * (y * z) = y * (x * z) := begin
+  exact mul_left_comm x y z,
+end
+
+example (h : x ∣ w) : x ∣ w^2 := begin
+  apply dvd_trans h,
+  apply dvd_mul_right,
+end
+
+example (h : x ∣ w) (h₁ : x ∣ y) : x ∣ y + w := begin
+exact dvd_add h₁ h,
+end
+
+example (h : x ∣ w) : x ∣ w * y + x * z := begin
+  -- library_search,
+end
+
+
+example (h : x ∣ w) : x ∣ y * (x * z) + x^2 + w^2 := begin
+  apply dvd_add,
+  apply dvd_add,
+  { show x ∣ y * (x * z),
+    rw mul_comm,
+    rw mul_assoc,
+    apply dvd_mul_right,
+  },
+  { show x ∣ x^2,
+    apply dvd_mul_right,
+  },
+  { show x ∣ w^2,
+    apply dvd_trans h,
+    apply dvd_mul_right,
+  },
 end
 
 section

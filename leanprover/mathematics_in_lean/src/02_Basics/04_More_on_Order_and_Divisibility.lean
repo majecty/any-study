@@ -53,25 +53,25 @@ begin
   apply h,
 end
 
--- backup
-example : min (min a b) c = min a (min b c) := begin
-  have x₀ : ∀ x y z, min (min x y) z ≤ x, { 
-    intros x y z,
-    apply le_trans,
-    { show min (min x y) z ≤ (min x y),
-    -- apply le_min,
-    -- apply min_le_left,
-    -- apply min_le_right,
-      sorry,},
-    apply min_le_left,
-    -- have xx₀ : min (min x y) z ≤ min x y, by apply min_le_left,
-    -- have xx₁ : min x y ≤ x, by apply min_le_left,
-    -- apply le_trans xx₀ xx₁,
-  },
-  have x₁ : min (min a b) c ≤ b, sorry,
-  have x₂ : min (min a b) c ≤ c, sorry,
-sorry,
-end
+-- -- backup
+-- example : min (min a b) c = min a (min b c) := begin
+--   have x₀ : ∀ x y z, min (min x y) z ≤ x, { 
+--     intros x y z,
+--     apply le_trans,
+--     { show min (min x y) z ≤ (min x y),
+--     -- apply le_min,
+--     -- apply min_le_left,
+--     -- apply min_le_right,
+--       sorry,},
+--     apply min_le_left,
+--     -- have xx₀ : min (min x y) z ≤ min x y, by apply min_le_left,
+--     -- have xx₁ : min x y ≤ x, by apply min_le_left,
+--     -- apply le_trans xx₀ xx₁,
+--   },
+--   have x₁ : min (min a b) c ≤ b, sorry,
+--   have x₂ : min (min a b) c ≤ c, sorry,
+-- sorry,
+-- end
 
 example : min (min a b) c = min a (min b c) := begin
   apply le_antisymm,
@@ -139,8 +139,6 @@ example : min a b + c = min (a + c) (b + c) := begin
   apply aux,
   },
   { show min (a + c) (b + c) ≤ min a b + c,
-    have h₀ : min (a + c) (b + c) ≤ a + c, sorry,
-    have h₁ : min (a + c) (b + c) ≤ b + c, sorry,
     have h₂ : min (a + c) (b + c) + -c ≤ min a b, begin
       apply le_min,
       {  show min (a + c) (b + c) + -c ≤ a,
@@ -209,11 +207,6 @@ example (h : x ∣ w) (h₁ : x ∣ y) : x ∣ y + w := begin
 exact dvd_add h₁ h,
 end
 
-example (h : x ∣ w) : x ∣ w * y + x * z := begin
-  -- library_search,
-end
-
-
 example (h : x ∣ w) : x ∣ y * (x * z) + x^2 + w^2 := begin
   apply dvd_add,
   apply dvd_add,
@@ -240,7 +233,31 @@ open nat
 #check (lcm_zero_right n : lcm n 0 = 0)
 #check (lcm_zero_left n  : lcm 0 n = 0)
 
-example : gcd m n = gcd n m :=
-sorry
+example : gcd m n ∣ m := begin
+  exact gcd_dvd_left m n,
+end
+
+example : gcd m n ∣ n := begin
+  exact gcd_dvd_right m n,
+end
+
+example (h: x ∣ n) (h₁ : x ∣ m) : x ∣ gcd m n := begin
+ exact dvd_gcd h₁ h,
+end
+
+example : gcd m n = gcd n m := begin
+  have h₀ : gcd m n ∣ gcd n m, begin
+    apply dvd_gcd,
+    exact gcd_dvd_right m n,
+    exact gcd_dvd_left m n,
+  end,
+  have h₁ : gcd n m ∣ gcd m n, begin
+    apply dvd_gcd,
+    exact gcd_dvd_right n m,
+    exact gcd_dvd_left n m,
+  end,
+  apply dvd_antisymm h₀ h₁,
+end
 
 end
+

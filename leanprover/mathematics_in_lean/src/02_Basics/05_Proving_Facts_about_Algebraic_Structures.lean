@@ -322,6 +322,12 @@ example (h : a ≤ b) (h' : 0 ≤ c) : a * c ≤ b * c := begin
   exact h₃,
 end
 
+example : a + a = 2 * a := begin
+library_search,
+-- sorry,
+end
+
+
 end
 
 section
@@ -332,7 +338,19 @@ variables x y z : X
 #check (dist_comm x y : dist x y = dist y x)
 #check (dist_triangle x y z : dist x z ≤ dist x y + dist y z)
 
-example (x y : X) : 0 ≤ dist x y := sorry
+#check nonneg_of_mul_nonneg_left
+-- (h : 0 ≤ a * b) (h1 : 0 < a) : 0 ≤ b :=
+example (x y : X) : 0 ≤ dist x y := begin
+  have h₀ : dist x x ≤ dist x y + dist y x, by apply dist_triangle,
+  have h₁ : dist x x ≤ dist x y + dist x y, { nth_rewrite_rhs 1 dist_comm at h₀, exact h₀ }, 
+  have h₂ : 0 ≤ 2 * (dist x y), {
+    rw dist_self at h₁,
+    rw two_mul,
+    exact h₁,
+  },
+  apply nonneg_of_mul_nonneg_left h₂,
+  linarith,
+end
 
 end
 

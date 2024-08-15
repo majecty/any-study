@@ -1,10 +1,14 @@
 import { setTimeout } from 'timers/promises';
+import { createRequire } from 'module';
 import { memoryUsage } from 'node:process';
+import os from 'node:os';
+
+const require = createRequire(import.meta.url);
+const addon = require('../build/Release/addon');
 
 async function main() {
-    const arr = [];
     for (let i = 0; i < 1_000_000_000; i++) {
-        arr.push(new Uint8Array(1_000_000));
+        addon.helloLeakMalloc();
         await setTimeout(100);
         console.log(i);
 

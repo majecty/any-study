@@ -107,6 +107,10 @@ func parseCommits(repo *git.Repository, maxCount int) ([]Commit, error) {
 		From:  ref.Hash(),
 		Order: git.LogOrderCommitterTime,
 	})
+	if err != nil {
+		return nil, fmt.Errorf("failed to get commit iterator: %v", err)
+	}
+
 	// Iterate through the commits
 	err = iter.ForEach(func(c *object.Commit) error {
 		commits = append(commits, Commit{

@@ -47,6 +47,7 @@ func main() {
 		log.Fatalf("Failed to create GUI: %v", err)
 	}
 	defer g.Close()
+	g.Cursor = true
 
 	g.SetManagerFunc(layout)
 
@@ -67,7 +68,7 @@ func layout(g *gocui.Gui) error {
 		}
 		v.Title = "Commits"
 		v.Wrap = true
-		v.Autoscroll = true
+		g.SetCurrentView("commits")
 
 		for _, c := range commits {
 			fmt.Fprintf(v, "%s - %s: %s\n", c.Hash[:7], c.Author, c.Message)
@@ -79,6 +80,83 @@ func layout(g *gocui.Gui) error {
 func initKeybindings(g *gocui.Gui) error {
 	if err := g.SetKeybinding("", gocui.KeyCtrlC, gocui.ModNone, quit); err != nil {
 		return err
+	}
+
+	if err := g.SetKeybinding("", 'c', gocui.ModNone, setCurrentViewCommits); err != nil {
+		return err
+	}
+
+	if err := g.SetKeybinding("", gocui.KeyArrowDown, gocui.ModNone, moveDown); err != nil {
+		return err
+	}
+	if err := g.SetKeybinding("", 'j', gocui.ModNone, moveDown); err != nil {
+		return err
+	}
+
+	if err := g.SetKeybinding("commits", 'k', gocui.ModNone, moveUp); err != nil {
+		return err
+	}
+	if err := g.SetKeybinding("commits", 'h', gocui.ModNone, moveLeft); err != nil {
+		return err
+	}
+	if err := g.SetKeybinding("commits", 'l', gocui.ModNone, moveRight); err != nil {
+		return err
+	}
+	return nil
+}
+
+func setCurrentViewCommits(g *gocui.Gui, v *gocui.View) error {
+	_, err := g.SetCurrentView("commits")
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func moveLeft(g *gocui.Gui, v *gocui.View) error {
+	cx, cy := v.Cursor()
+	if err := v.SetCursor(cx-1, cy); err != nil {
+		ox, oy := v.Origin()
+		if err := v.SetOrigin(ox-1, oy); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func moveRight(g *gocui.Gui, v *gocui.View) error {
+	cx, cy := v.Cursor()
+	if err := v.SetCursor(cx+1, cy); err != nil {
+		ox, oy := v.Origin()
+		if err := v.SetOrigin(ox+1, oy); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func moveDown(g *gocui.Gui, v *gocui.View) error {
+	if v != nil {
+		cx, cy := v.Cursor()
+		if err := v.SetCursor(cx, cy+1); err != nil {
+			ox, oy := v.Origin()
+			if err := v.SetOrigin(ox, oy+1); err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+
+func moveUp(g *gocui.Gui, v *gocui.View) error {
+	if v != nil {
+		ox, oy := v.Origin()
+		cx, cy := v.Cursor()
+		if err := v.SetCursor(cx, cy-1); err != nil && oy > 0 {
+			if err := v.SetOrigin(ox, oy-1); err != nil {
+				return err
+			}
+		}
 	}
 	return nil
 }
